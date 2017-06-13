@@ -1,13 +1,11 @@
 package com.arnoldgalovics.bookshelf.repository.dao;
 
-import java.util.Collection;
+import com.arnoldgalovics.bookshelf.repository.domain.AuthorEntity;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
-import org.springframework.stereotype.Repository;
-
-import com.arnoldgalovics.bookshelf.repository.domain.AuthorEntity;
+import java.util.Collection;
 
 @Repository
 public class AuthorRepositoryImpl implements AuthorRepository {

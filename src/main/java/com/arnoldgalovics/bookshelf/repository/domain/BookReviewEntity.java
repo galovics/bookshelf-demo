@@ -1,14 +1,13 @@
 package com.arnoldgalovics.bookshelf.repository.domain;
 
-import java.util.UUID;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
+import java.util.UUID;
 
 @Entity
 @Table(name = "book_reviews")
@@ -18,6 +17,14 @@ public class BookReviewEntity {
 
     @ManyToOne
     private BookEntity book;
+
+    public BookReviewEntity() {
+        this.id = UUID.randomUUID();
+    }
+
+    void setBook(BookEntity book) {
+        this.book = book;
+    }
 
     @Override
     public int hashCode() {

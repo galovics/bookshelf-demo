@@ -1,8 +1,8 @@
 package com.arnoldgalovics.bookshelf.service.domain;
 
-import java.util.UUID;
-
 import com.arnoldgalovics.bookshelf.repository.domain.AuthorEntity;
+
+import java.util.UUID;
 
 public class AuthorView {
     private UUID authorId;

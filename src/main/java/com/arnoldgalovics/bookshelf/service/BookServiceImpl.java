@@ -1,17 +1,17 @@
 package com.arnoldgalovics.bookshelf.service;
 
-import static java.util.stream.Collectors.toList;
-
-import java.util.Collection;
-import java.util.UUID;
-
+import com.arnoldgalovics.bookshelf.repository.dao.BookRepository;
+import com.arnoldgalovics.bookshelf.repository.domain.BookEntity;
+import com.arnoldgalovics.bookshelf.service.domain.BookView;
+import com.arnoldgalovics.bookshelf.service.domain.SimpleBookView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.arnoldgalovics.bookshelf.repository.dao.BookRepository;
-import com.arnoldgalovics.bookshelf.repository.domain.BookEntity;
-import com.arnoldgalovics.bookshelf.service.domain.BookView;
+import java.util.Collection;
+import java.util.UUID;
+
+import static java.util.stream.Collectors.toList;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -31,6 +31,12 @@ public class BookServiceImpl implements BookService {
     @Transactional
     public BookView getBook(final UUID id) {
         return new BookView(bookRepository.findById(id));
+    }
+
+    @Override
+    @Transactional
+    public SimpleBookView getSimpleBook(UUID id) {
+        return new SimpleBookView(bookRepository.findById(id));
     }
 
     @Override

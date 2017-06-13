@@ -1,15 +1,14 @@
 package com.arnoldgalovics.bookshelf.service;
 
-import static java.util.stream.Collectors.toList;
-
-import java.util.Collection;
-
+import com.arnoldgalovics.bookshelf.repository.dao.AuthorRepository;
+import com.arnoldgalovics.bookshelf.service.domain.AuthorView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.arnoldgalovics.bookshelf.repository.dao.AuthorRepository;
-import com.arnoldgalovics.bookshelf.service.domain.AuthorView;
+import java.util.Collection;
+
+import static java.util.stream.Collectors.toList;
 
 @Service
 @Transactional

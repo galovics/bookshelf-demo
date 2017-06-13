@@ -1,12 +1,13 @@
 package com.arnoldgalovics.bookshelf.service;
 
-import static com.arnoldgalovics.bookshelf.QueryAssertions.assertSelectCount;
-import static com.arnoldgalovics.bookshelf.QueryAssertions.assertUpdateCount;
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.util.Collection;
-import java.util.UUID;
-
+import com.arnoldgalovics.bookshelf.TestConfiguration;
+import com.arnoldgalovics.bookshelf.TestHelper;
+import com.arnoldgalovics.bookshelf.repository.domain.AuthorEntity;
+import com.arnoldgalovics.bookshelf.repository.domain.BookEntity;
+import com.arnoldgalovics.bookshelf.repository.domain.BookReviewEntity;
+import com.arnoldgalovics.bookshelf.repository.domain.LanguageType;
+import com.arnoldgalovics.bookshelf.service.domain.BookView;
+import com.arnoldgalovics.bookshelf.service.domain.SimpleBookView;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,16 +16,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.arnoldgalovics.bookshelf.TestConfiguration;
-import com.arnoldgalovics.bookshelf.TestHelper;
-import com.arnoldgalovics.bookshelf.repository.domain.AuthorEntity;
-import com.arnoldgalovics.bookshelf.repository.domain.BookEntity;
-import com.arnoldgalovics.bookshelf.repository.domain.LanguageType;
-import com.arnoldgalovics.bookshelf.service.domain.BookView;
+import java.util.Collection;
+import java.util.UUID;
+
+import static com.arnoldgalovics.bookshelf.QueryAssertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-@Import({ TestConfiguration.class })
+@Import({TestConfiguration.class})
 public class BookServiceImplTest {
     @Autowired
     private TestHelper testHelper;
@@ -40,17 +40,23 @@ public class BookServiceImplTest {
     @Test
     public void testGetBooksShouldTriggerOneSelectOnly() {
         // given
-        testHelper.doInTransaction(entityManager -> {
+        UUID effectiveJavaId = testHelper.doInTransaction(entityManager -> {
             AuthorEntity oneAuthor = new AuthorEntity("Someone..", "There was an author..");
             BookEntity effectiveJava = new BookEntity("Effective Java", 10, "12131231312", LanguageType.ENGLISH, oneAuthor);
+            BookReviewEntity review1 = new BookReviewEntity();
+            BookReviewEntity review2 = new BookReviewEntity();
+            effectiveJava.addReview(review1);
+            effectiveJava.addReview(review2);
             BookEntity effectiveJava2 = new BookEntity("Effective Java 2nd edition", 11, "12131231313", LanguageType.ENGLISH, oneAuthor);
             BookEntity cleanCode = new BookEntity("Clean code", 200, "568751213", LanguageType.ENGLISH, oneAuthor);
             entityManager.persist(oneAuthor);
+            return effectiveJava.getId();
         });
         // when
         Collection<BookView> result = underTest.getBooks();
         // then
         assertThat(result).hasSize(3);
+        assertThat(result.stream().filter(view -> effectiveJavaId.equals(view.getBookId())).findFirst().get().getReviewCount()).isEqualTo(2);
         assertSelectCount(1);
     }
 
@@ -60,6 +66,8 @@ public class BookServiceImplTest {
         UUID effectiveJavaId = testHelper.doInTransaction(entityManager -> {
             AuthorEntity oneAuthor = new AuthorEntity("Someone..", "There was an author..");
             BookEntity effectiveJava = new BookEntity("Effective Java", 10, "12131231312", LanguageType.ENGLISH, oneAuthor);
+            BookReviewEntity review1 = new BookReviewEntity();
+            effectiveJava.addReview(review1);
             entityManager.persist(oneAuthor);
             return effectiveJava.getId();
         });
@@ -67,6 +75,7 @@ public class BookServiceImplTest {
         BookView result = underTest.getBook(effectiveJavaId);
         // then
         assertThat(result).isNotNull();
+        assertThat(result.getReviewCount()).isEqualTo(1);
         assertSelectCount(1);
     }
 
@@ -84,5 +93,22 @@ public class BookServiceImplTest {
         // then
         assertSelectCount(1);
         assertUpdateCount(1);
+    }
+
+    @Test
+    public void testGetSimpleBookShouldTriggerOneSelectOnly() {
+        // given
+        UUID effectiveJavaId = testHelper.doInTransaction(entityManager -> {
+            AuthorEntity oneAuthor = new AuthorEntity("Someone..", "There was an author..");
+            BookEntity effectiveJava = new BookEntity("Effective Java", 10, "12131231312", LanguageType.ENGLISH, oneAuthor);
+            entityManager.persist(oneAuthor);
+            return effectiveJava.getId();
+        });
+        // when
+        SimpleBookView result = underTest.getSimpleBook(effectiveJavaId);
+        // then
+        assertThat(result).isNotNull();
+        assertSelectCount(1);
+        assertSelectionFields("id", "name");
     }
 }

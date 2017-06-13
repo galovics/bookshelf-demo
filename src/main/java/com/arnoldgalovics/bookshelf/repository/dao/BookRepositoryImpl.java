@@ -1,17 +1,15 @@
 package com.arnoldgalovics.bookshelf.repository.dao;
 
-import java.util.Collection;
-import java.util.UUID;
+import com.arnoldgalovics.bookshelf.repository.domain.BookEntity;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-
-import org.springframework.stereotype.Repository;
-
-import com.arnoldgalovics.bookshelf.repository.domain.BookEntity;
+import java.util.Collection;
+import java.util.UUID;
 
 @Repository
 public class BookRepositoryImpl implements BookRepository {

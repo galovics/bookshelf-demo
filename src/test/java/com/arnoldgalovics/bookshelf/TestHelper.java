@@ -1,20 +1,18 @@
 package com.arnoldgalovics.bookshelf;
 
-import java.util.function.Consumer;
-import java.util.function.Function;
+import com.arnoldgalovics.bookshelf.internal.QueryStatementHolder;
+import com.arnoldgalovics.bookshelf.repository.domain.AuthorEntity;
+import com.arnoldgalovics.bookshelf.repository.domain.BookEntity;
+import com.arnoldgalovics.bookshelf.repository.domain.BookReviewEntity;
+import net.ttddyy.dsproxy.QueryCountHolder;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaDelete;
-
-import org.springframework.transaction.annotation.Transactional;
-
-import com.arnoldgalovics.bookshelf.repository.domain.AuthorEntity;
-import com.arnoldgalovics.bookshelf.repository.domain.BookEntity;
-import com.arnoldgalovics.bookshelf.repository.domain.BookReviewEntity;
-
-import net.ttddyy.dsproxy.QueryCountHolder;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 @Transactional
 public class TestHelper {
@@ -41,6 +39,7 @@ public class TestHelper {
         entityManager.createQuery(bookDelete).executeUpdate();
         entityManager.createQuery(authorDelete).executeUpdate();
         QueryCountHolder.clear();
+        QueryStatementHolder.clear();
     }
 
 }
