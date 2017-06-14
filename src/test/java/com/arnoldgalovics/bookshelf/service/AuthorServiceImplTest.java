@@ -4,6 +4,7 @@ import com.arnoldgalovics.bookshelf.TestConfiguration;
 import com.arnoldgalovics.bookshelf.TestHelper;
 import com.arnoldgalovics.bookshelf.repository.domain.AuthorEntity;
 import com.arnoldgalovics.bookshelf.service.domain.AuthorView;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,11 @@ public class AuthorServiceImplTest {
 
     @Autowired
     private AuthorService underTest;
+
+    @After
+    public void tearDown() {
+        testHelper.resetDB();
+    }
 
     @Test
     public void testGetAuthorsShouldOnlyTriggerOneSelect() {
