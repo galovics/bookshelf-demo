@@ -8,6 +8,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.transaction.Transactional;
 import java.util.Collection;
 import java.util.UUID;
 
@@ -25,6 +26,7 @@ public class BookRepositoryImpl implements BookRepository {
     }
 
     @Override
+    @Transactional
     public BookEntity findById(final UUID id) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<BookEntity> query = cb.createQuery(BookEntity.class);
