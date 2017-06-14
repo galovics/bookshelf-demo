@@ -5,9 +5,9 @@ The showcase project contains a simple application focusing on the book domain.
 The application uses Spring Boot with an H2 in-memory database and it intentionally has multiple data-access performance flaws. 
 The goal of the project is to find out which performance issues are present and to fix it.
 
-There are multiple test cases for each issue so you can easily verify that the issues are soled.
+There are multiple test cases for each issue so you can easily verify that the issues are solved.
 
-Hibernate query logging and formatting is enabled by default to easily see what queries are running under the hood.
+Hibernate query logging and formatting is enabled to easily see what queries are running under the hood.
 
 **Test classes**
 
