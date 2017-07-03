@@ -1,9 +1,10 @@
 package com.arnoldgalovics.bookshelf.repository.dao;
 
-import com.arnoldgalovics.bookshelf.repository.domain.BookEntity;
-
 import java.util.Collection;
 import java.util.UUID;
+
+import com.arnoldgalovics.bookshelf.repository.domain.BookEntity;
+import com.arnoldgalovics.bookshelf.service.domain.SimpleBookView;
 
 /**
  * Repository to query Books
@@ -21,4 +22,6 @@ public interface BookRepository {
      * @return the BookEntity with the corresponding id
      */
     BookEntity findById(UUID id);
+
+	SimpleBookView findViewById(UUID id);
 }

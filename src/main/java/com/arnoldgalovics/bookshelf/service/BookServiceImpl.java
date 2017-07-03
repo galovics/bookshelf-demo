@@ -1,17 +1,18 @@
 package com.arnoldgalovics.bookshelf.service;
 
-import com.arnoldgalovics.bookshelf.repository.dao.BookRepository;
-import com.arnoldgalovics.bookshelf.repository.domain.BookEntity;
-import com.arnoldgalovics.bookshelf.service.domain.BookView;
-import com.arnoldgalovics.bookshelf.service.domain.SimpleBookView;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import static java.util.stream.Collectors.toList;
 
 import java.util.Collection;
 import java.util.UUID;
 
-import static java.util.stream.Collectors.toList;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.arnoldgalovics.bookshelf.repository.dao.BookRepository;
+import com.arnoldgalovics.bookshelf.repository.domain.BookEntity;
+import com.arnoldgalovics.bookshelf.service.domain.BookView;
+import com.arnoldgalovics.bookshelf.service.domain.SimpleBookView;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -35,13 +36,14 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional
-    public SimpleBookView getSimpleBook(UUID id) {
-        return new SimpleBookView(bookRepository.findById(id));
+    public SimpleBookView getSimpleBook(final UUID id) {
+        return bookRepository.findViewById(id);
     }
 
     @Override
+    @javax.transaction.Transactional
     public void changeName(final UUID id, final String name) {
-        BookEntity book = bookRepository.findById(id);
+        final BookEntity book = bookRepository.findById(id);
         helper.updateName(book, name);
     }
 
