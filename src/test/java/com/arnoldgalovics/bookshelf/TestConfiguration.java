@@ -1,8 +1,9 @@
 package com.arnoldgalovics.bookshelf;
 
-import com.arnoldgalovics.bookshelf.internal.DataSourceBeanPostProcessor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import com.arnoldgalovics.bookshelf.internal.DataSourceBeanPostProcessor;
 
 @Configuration
 public class TestConfiguration {

@@ -1,10 +1,11 @@
 package com.arnoldgalovics.bookshelf.internal;
 
-import net.ttddyy.dsproxy.support.ProxyDataSourceBuilder;
+import javax.sql.DataSource;
+
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 
-import javax.sql.DataSource;
+import net.ttddyy.dsproxy.support.ProxyDataSourceBuilder;
 
 public class DataSourceBeanPostProcessor implements BeanPostProcessor {
     @Override
@@ -19,7 +20,6 @@ public class DataSourceBeanPostProcessor implements BeanPostProcessor {
             return ProxyDataSourceBuilder
                     .create((DataSource) bean)
                     .name("dataSource")
-                    .listener(new CustomQueryExecutionListener())
                     .countQuery()
                     .build();
             // @formatter:on
