@@ -1,13 +1,20 @@
 package com.arnoldgalovics.bookshelf.repository.domain;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-
-import javax.persistence.*;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 @Entity
 @Table(name = "authors")
@@ -21,8 +28,8 @@ public class AuthorEntity {
     @Column(name = "introduction")
     private String introduction;
 
-    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER, mappedBy = "author")
-    private Set<BookEntity> books = new HashSet<>();
+    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY, mappedBy = "author")
+    private final Set<BookEntity> books = new HashSet<>();
 
     AuthorEntity() {
     }
@@ -75,7 +82,7 @@ public class AuthorEntity {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        AuthorEntity other = (AuthorEntity) obj;
+        final AuthorEntity other = (AuthorEntity) obj;
         return new EqualsBuilder().append(id, other.id).isEquals();
     }
 }
